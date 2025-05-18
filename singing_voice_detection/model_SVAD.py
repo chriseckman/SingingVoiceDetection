@@ -6,8 +6,8 @@ from keras.layers.core import Dense, Activation
 from keras.layers import Input,Conv1D,Conv2D, MaxPooling2D, GlobalAveragePooling2D, BatchNormalization,Dropout,concatenate
 
 def SVAD_CONV_MultiLayer():
-    input = Input(shape=(75, 80, 1))
-    block1= Conv2D(64, (3, 3), name='conv1_1', padding='same', kernel_initializer='he_normal',kernel_regularizer=l2(0.))(input)
+    inputs = Input(shape=(75, 80, 1))
+    block1 = Conv2D(64, (3, 3), name='conv1_1', padding='same', kernel_initializer='he_normal', kernel_regularizer=l2(0.))(inputs)
     block1 = BatchNormalization()(block1)
     block1 = LeakyReLU(0.01)(block1)
     block1 = Conv2D(64, (3, 3), name='conv1_2', padding='same', kernel_initializer='he_normal',kernel_regularizer=l2(0.))(block1)
@@ -63,5 +63,5 @@ def SVAD_CONV_MultiLayer():
     gap = GlobalAveragePooling2D()(conv1x1)
     output = Activation("sigmoid",name="sigmoid")(gap)
 
-    model = Model(inputs = input, outputs = output)
+    model = Model(inputs=inputs, outputs=output)
     return model

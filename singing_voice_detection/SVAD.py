@@ -35,7 +35,9 @@ def predict_singing_segments(file_name, model, options):
     return y_predict
 
 def export_to_json(segments, output_file):
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    dir_name = os.path.dirname(output_file)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
     with open(output_file, 'w') as f:
         json.dump(segments, f, indent=4)
     logging.info(f"Singing segments saved to {output_file}")
@@ -64,6 +66,17 @@ def process_predictions(y_predict, options, min_duration=1.0):
                         "end_hhmmss": str(timedelta(seconds=current_segment[1]))
                     })
                 current_segment = None
+
+    if current_segment:
+        duration = current_segment[1] - current_segment[0]
+        if duration >= min_duration:
+            segments.append({
+                "start": f"{current_segment[0]:.3f}",
+                "end": f"{current_segment[1]:.3f}",
+                "duration": f"{duration:.3f}",
+                "start_hhmmss": str(timedelta(seconds=current_segment[0])),
+                "end_hhmmss": str(timedelta(seconds=current_segment[1]))
+            })
 
     return segments
 

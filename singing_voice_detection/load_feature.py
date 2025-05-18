@@ -40,4 +40,11 @@ def makingTensor(feature,stride):
 
 
 if __name__ == '__main__':
-    featureExtract()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Extract features from an audio file")
+    parser.add_argument('file', help='Path to audio file')
+    args = parser.parse_args()
+
+    features = featureExtract(args.file)
+    print(features.shape)
