@@ -31,7 +31,9 @@ def load_model(weights_path):
 def predict_singing_segments(file_name, model, options):
     feature = featureExtract(file_name)
     x_test = makingTensor(feature, stride=options.stride)
-    y_predict = (model.predict(x_test, verbose=1) > options.threshold).astype(int)
+    y_predict = (
+        model.predict(x_test, verbose=0) > options.threshold
+    ).astype(int)
     return y_predict
 
 def export_to_json(segments, output_file):
@@ -51,9 +53,9 @@ def process_predictions(y_predict, options, min_duration=1.0):
         timestamp = stride_seconds * idx
         if pred == 1:
             if current_segment is None:
-                current_segment = [timestamp, timestamp]
+                current_segment = [timestamp, timestamp + stride_seconds]
             else:
-                current_segment[1] = timestamp
+                current_segment[1] = timestamp + stride_seconds
         else:
             if current_segment:
                 duration = current_segment[1] - current_segment[0]

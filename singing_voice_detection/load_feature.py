@@ -3,24 +3,29 @@ import numpy as np
 import librosa
 from madmom.audio.signal import Signal
 
-def featureExtract(FILE_NAME):
-
+def featureExtract(file_name):
+    """Return log-mel spectrogram features for ``file_name``."""
     try:
-        y=  Signal(FILE_NAME, sample_rate=16000,dtype=np.float32,num_channels=1)
-        sr = y.sample_rate
-        mel_S = librosa.feature.melspectrogram(y, sr=sr, n_fft=1024, hop_length=160, n_mels=80)
+        signal = Signal(
+            str(file_name), sample_rate=16000, dtype=np.float32, num_channels=1
+        )
+        sr = signal.sample_rate
+        mel_S = librosa.feature.melspectrogram(
+            signal, sr=sr, n_fft=1024, hop_length=160, n_mels=80
+        )
         log_mel_S = librosa.power_to_db(mel_S,ref=np.max)
         log_mel_S = log_mel_S.astype(np.float32)
         return log_mel_S
 
     except Exception as ex:
-        print('ERROR: ', ex)
+        print("ERROR:", ex)
+        raise
         
 def makingTensor(feature,stride):
     num_frames = feature.shape[1]
     x_data = np.zeros(shape=(num_frames, 75, 80, 1))
     total_num = 0
-    HALF_WIN_LEN = 75  // 2
+    HALF_WIN_LEN = 75 // 2
 
     for j in range(HALF_WIN_LEN, num_frames - HALF_WIN_LEN - 2, stride):
         mf_spec = feature[:, range(j - HALF_WIN_LEN, j + HALF_WIN_LEN + 1)]
@@ -48,3 +53,7 @@ if __name__ == '__main__':
 
     features = featureExtract(args.file)
     print(features.shape)
+<<<<<<< ours
+=======
+
+>>>>>>> theirs
