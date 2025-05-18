@@ -9,16 +9,16 @@ description = "Detect singing voice segments in audio files"
 authors = [ { name = "Original Authors" } ]
 readme = "README.md"
 requires-python = ">=3.8"
+dependencies = [
+    "tensorflow",
+    "keras",
+    "librosa",
+    "numpy",
+    "madmom @ git+https://github.com/aubio/madmom.git@python3.10",
+]
 
 [project.urls]
 Homepage = "https://example.com"
-
-[project.dependencies]
-tensorflow = "*"
-keras = "*"
-librosa = "*"
-numpy = "*"
-madmom = "git+https://github.com/aubio/madmom.git@python3.10"
 
 [tool.setuptools]
 packages = ["singing_voice_detection"]
