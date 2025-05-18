@@ -1,9 +1,20 @@
-from keras.regularizers import l2
-from keras.layers import LeakyReLU
+"""Model architecture for Singing Voice Activity Detection."""
 
-from keras.models import  Model
-from keras.layers import Dense, Activation
-from keras.layers import Input,Conv1D,Conv2D, MaxPooling2D, GlobalAveragePooling2D, BatchNormalization,Dropout,concatenate
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.layers import (
+    LeakyReLU,
+    Dense,
+    Activation,
+    Input,
+    Conv1D,
+    Conv2D,
+    MaxPooling2D,
+    GlobalAveragePooling2D,
+    BatchNormalization,
+    Dropout,
+    concatenate,
+)
+from tensorflow.keras.models import Model
 
 def SVAD_CONV_MultiLayer():
     inputs = Input(shape=(75, 80, 1))
