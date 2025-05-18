@@ -14,7 +14,8 @@ dependencies = [
     "keras",
     "librosa",
     "numpy",
-    "madmom @ git+https://github.com/aubio/madmom.git@python3.10",
+    # "madmom @ git+https://github.com/aubio/madmom.git@python3.10",
+    "madmom @ git+https://github.com/CPJKU/madmom.git",
 ]
 
 [project.urls]
