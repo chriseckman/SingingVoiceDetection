@@ -4,14 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "singing-voice-detection"
-version = "0.1.0"
+version = "0.1.1"
 description = "Detect singing voice segments in audio files"
 authors = [ { name = "Original Authors" } ]
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
     "tensorflow",
-    "keras",
     "librosa",
     "numpy"
 ]
