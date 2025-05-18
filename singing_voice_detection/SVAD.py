@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np
 from keras.optimizers import Adam
 import os
@@ -5,8 +6,8 @@ import json
 import argparse
 import logging
 from datetime import timedelta
-from model_SVAD import *
-from load_feature import *
+from .model_SVAD import *
+from .load_feature import *
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -75,7 +76,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     options = Options(threshold=args.threshold, stride=args.stride)
-    model = load_model('./weights/SVAD_CNN_ML.hdf5')
+    weights_path = Path(__file__).resolve().parent / 'weights' / 'SVAD_CNN_ML.hdf5'
+    model = load_model(str(weights_path))
     y_predict = predict_singing_segments(args.file, model, options)
 
     segments = process_predictions(y_predict, options, min_duration=1.0)

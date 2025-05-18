@@ -1,8 +1,7 @@
-import os.path
+from pathlib import Path
 import numpy as np
 import librosa
-import matplotlib.pyplot as plt
-from madmom.audio.signal import *
+from madmom.audio.signal import Signal
 
 def featureExtract(FILE_NAME):
 
@@ -30,8 +29,11 @@ def makingTensor(feature,stride):
 
     x_data = x_data[:total_num]
 
-    x_train_mean = np.load('./x_data_mean_svad_75.npy')
-    x_train_std = np.load('./x_data_std_svad_75.npy')
+    package_dir = Path(__file__).resolve().parent
+    mean_path = package_dir / 'data' / 'x_data_mean_svad_75.npy'
+    std_path = package_dir / 'data' / 'x_data_std_svad_75.npy'
+    x_train_mean = np.load(mean_path)
+    x_train_std = np.load(std_path)
     x_test = (x_data - x_train_mean) / (x_train_std + 0.0001)
 
     return x_test

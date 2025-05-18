@@ -11,28 +11,22 @@ This repository provides a Python implementation for detecting singing segments 
 * Minimum duration filtering for singing segments
 * Comprehensive logging for better debugging
 
-## Requirements
+## Installation
 
-To install the dependencies, ensure you have Python installed and run:
+Install the package directly from the repository using `pip`:
 
 ```bash
-pip install -r requirements.txt
+pip install git+https://example.com/singing-voice-detection.git
 ```
 
-The main dependencies include:
-* `tensorflow` and `keras` for model handling
-* `librosa` for audio feature extraction
-* `numpy` for numerical operations
-* `madmom` (custom fork for Python 3.10 compatibility)
-
-Refer to the `requirements.txt` file for detailed package versions.
+The main dependencies (TensorFlow, Keras, Librosa, NumPy and `madmom`) will be installed automatically.
 
 ## Command-Line Usage
 
-The script can be run from the command line with various options:
+After installation a command line tool `svad-detect` is available:
 
 ```bash
-python SVAD.py --file path/to/audio_file.wav [--threshold 0.5] [--stride 5] [--output path/to/output.json]
+svad-detect --file path/to/audio.wav --threshold 0.5 --stride 5 --output results.json
 ```
 
 ### Arguments:
@@ -46,20 +40,14 @@ python SVAD.py --file path/to/audio_file.wav [--threshold 0.5] [--stride 5] [--o
 To integrate the detection functionality within another Python script:
 
 ```python
-from SVAD import Options, load_model, predict_singing_segments, process_predictions
+from singing_voice_detection import detect_singing_segments
 
-# Initialize options
-options = Options(threshold=0.5, stride=5)
-
-# Load the model
-model = load_model('./weights/SVAD_CNN_ML.hdf5')
-
-# Process audio file
-file_path = './data/your_audio_file.wav'
-predictions = predict_singing_segments(file_path, model, options)
-
-# Get singing segments
-segments = process_predictions(predictions, options, min_duration=1.0)
+segments = detect_singing_segments(
+    "./data/your_audio_file.wav",
+    threshold=0.5,
+    stride=5,
+    min_duration=1.0,
+)
 ```
 
 ## Output Format
@@ -87,10 +75,8 @@ The detection system can be configured through the `Options` class:
 
 ## Key Components
 
-* `SVAD.py`: Main script with command-line interface and core functionality
-* `model_SVAD.py`: CNN model architecture definition
-* `load_feature.py`: Audio processing and feature extraction
-* `weights/SVAD_CNN_ML.hdf5`: Pre-trained model weights
+* `singing_voice_detection/` - Python package providing the detection API
+* `weights/SVAD_CNN_ML.hdf5` - Pre-trained model weights bundled with the package
 
 ## Algorithm Description
 
@@ -104,14 +90,16 @@ The system uses a Convolutional Neural Network (CNN) to classify audio segments 
 
 ```
 .
-├── SVAD.py
-├── model_SVAD.py
-├── load_feature.py
-├── requirements.txt
-├── weights/
-│   └── SVAD_CNN_ML.hdf5
-└── results/
-    └── singing_segments.json
+├── singing_voice_detection/
+│   ├── __init__.py
+│   ├── SVAD.py
+│   ├── model_SVAD.py
+│   ├── load_feature.py
+│   └── weights/
+│       └── SVAD_CNN_ML.hdf5
+└── tests/
+    └── data/
+        └── test.wav
 ```
 
 ## License

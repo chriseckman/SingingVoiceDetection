@@ -3,10 +3,12 @@ __pycache__/
 *.py[cod]
 
 # Data and output files (adjust as needed)
-data/
+/data/
 results/
-*.wav
 *.txt
+
+# Allow tests/data folder
+!tests/data/
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
