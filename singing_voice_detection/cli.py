@@ -12,6 +12,7 @@ def main():
     parser.add_argument('--stride', type=int, default=5, help='Stride for feature extraction')
     parser.add_argument('--output', type=str, default='./results/singing_segments.json', help='Output JSON file path')
     parser.add_argument('--min-duration', type=float, default=1.0, help='Minimum duration for a valid segment')
+    parser.add_argument('--include-confidence', action='store_true', help='Include confidence score for each segment')
     args = parser.parse_args()
 
     segments = detect_singing_segments(
@@ -19,6 +20,7 @@ def main():
         threshold=args.threshold,
         stride=args.stride,
         min_duration=args.min_duration,
+        include_confidence=args.include_confidence,
     )
 
     output_path = Path(args.output)

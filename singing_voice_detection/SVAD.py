@@ -36,6 +36,14 @@ def predict_singing_segments(file_name, model, options):
     ).astype(int)
     return y_predict
 
+
+def predict_singing_probabilities(file_name, model, options):
+    """Return raw model probabilities for each frame."""
+    feature = featureExtract(file_name)
+    x_test = makingTensor(feature, stride=options.stride)
+    probabilities = model.predict(x_test, verbose=0).flatten()
+    return probabilities
+
 def export_to_json(segments, output_file):
     dir_name = os.path.dirname(output_file)
     if dir_name:
@@ -78,6 +86,54 @@ def process_predictions(y_predict, options, min_duration=1.0):
                 "duration": f"{duration:.3f}",
                 "start_hhmmss": str(timedelta(seconds=current_segment[0])),
                 "end_hhmmss": str(timedelta(seconds=current_segment[1]))
+            })
+
+    return segments
+
+
+def process_probabilities(probabilities, options, min_duration=1.0):
+    """Create segments with average confidence from raw probabilities."""
+    stride_seconds = 0.01 * options.stride
+    segments = []
+    current_segment = None
+    current_scores = []
+
+    for idx, prob in enumerate(probabilities):
+        timestamp = stride_seconds * idx
+        if prob >= options.threshold:
+            if current_segment is None:
+                current_segment = [timestamp, timestamp + stride_seconds]
+                current_scores = [float(prob)]
+            else:
+                current_segment[1] = timestamp + stride_seconds
+                current_scores.append(float(prob))
+        else:
+            if current_segment:
+                duration = current_segment[1] - current_segment[0]
+                if duration >= min_duration:
+                    avg_conf = sum(current_scores) / len(current_scores)
+                    segments.append({
+                        "start": f"{current_segment[0]:.3f}",
+                        "end": f"{current_segment[1]:.3f}",
+                        "duration": f"{duration:.3f}",
+                        "start_hhmmss": str(timedelta(seconds=current_segment[0])),
+                        "end_hhmmss": str(timedelta(seconds=current_segment[1])),
+                        "confidence": f"{avg_conf:.3f}",
+                    })
+                current_segment = None
+                current_scores = []
+
+    if current_segment:
+        duration = current_segment[1] - current_segment[0]
+        if duration >= min_duration:
+            avg_conf = sum(current_scores) / len(current_scores)
+            segments.append({
+                "start": f"{current_segment[0]:.3f}",
+                "end": f"{current_segment[1]:.3f}",
+                "duration": f"{duration:.3f}",
+                "start_hhmmss": str(timedelta(seconds=current_segment[0])),
+                "end_hhmmss": str(timedelta(seconds=current_segment[1])),
+                "confidence": f"{avg_conf:.3f}",
             })
 
     return segments

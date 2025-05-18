@@ -9,6 +9,7 @@ This repository provides a Python implementation for detecting singing segments 
 * Configurable detection threshold and analysis stride
 * Command-line interface for easy usage
 * Minimum duration filtering for singing segments
+* Optional confidence scores for detected segments
 * Comprehensive logging for better debugging
 
 ## Installation
@@ -37,6 +38,7 @@ svad-detect --file path/to/audio.wav --threshold 0.5 --stride 5 --output results
 * `--threshold`: Detection threshold (default: 0.5)
 * `--stride`: Stride for feature extraction (default: 5)
 * `--output`: Output JSON file path (default: './results/singing_segments.json')
+* `--include-confidence`: Include confidence score for each segment
 
 ## Python API Usage
 
@@ -50,8 +52,10 @@ segments = detect_singing_segments(
     threshold=0.5,
     stride=5,
     min_duration=1.0,
+    include_confidence=True,
 )
 ```
+Setting `include_confidence` to `True` adds an average confidence value for each detected segment.
 
 ## Output Format
 
@@ -64,7 +68,8 @@ The detection results are saved in JSON format, with detailed timing information
     "end": "22.950",
     "duration": "1.050",
     "start_hhmmss": "0:00:21.900",
-    "end_hhmmss": "0:00:22.950"
+    "end_hhmmss": "0:00:22.950",
+    "confidence": "0.87"
   }
 ]
 ```
