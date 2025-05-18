@@ -7,7 +7,7 @@ def featureExtract(file_name):
     try:
         signal, sr = librosa.load(str(file_name), sr=16000, mono=True)
         mel_S = librosa.feature.melspectrogram(
-            signal, sr=sr, n_fft=1024, hop_length=160, n_mels=80
+            y=signal, sr=sr, n_fft=1024, hop_length=160, n_mels=80
         )
         log_mel_S = librosa.power_to_db(mel_S,ref=np.max)
         log_mel_S = log_mel_S.astype(np.float32)
