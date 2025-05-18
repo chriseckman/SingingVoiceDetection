@@ -10,6 +10,7 @@ This repository provides a Python implementation for detecting singing segments 
 * Command-line interface for easy usage
 * Minimum duration filtering for singing segments
 * Optional confidence scores for detected segments
+* Pitch-based feature extraction helpers (F0, stability, vibrato)
 * Comprehensive logging for better debugging
 
 ## Installation
@@ -109,6 +110,21 @@ The system uses a Convolutional Neural Network (CNN) to classify audio segments 
     └── data/
         └── test.wav
 ```
+
+## Pitch Feature Extraction
+
+The `load_feature` module provides `featureExtract_with_pitch()` for advanced
+audio analysis. It returns log-mel spectrogram data together with fundamental
+frequency (F0) and simple statistics useful for separating singing from speech:
+
+- `log_mel`: standard log-mel spectrogram
+- `f0`: estimated pitch contour via the YIN algorithm
+- `pitch_stability`: inverse of frame-to-frame pitch variation
+- `vibrato_extent`: deviation from a median-filtered pitch track
+
+These additional features can help train custom models that rely on pitch cues
+to discriminate singing from speech, especially in challenging scenarios such as
+speech over music.
 
 ## License
 
