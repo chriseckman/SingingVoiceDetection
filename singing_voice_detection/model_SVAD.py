@@ -2,7 +2,7 @@ from keras.regularizers import l2
 from keras.layers import LeakyReLU
 
 from keras.models import  Model
-from keras.layers.core import Dense, Activation
+from keras.layers import Dense, Activation
 from keras.layers import Input,Conv1D,Conv2D, MaxPooling2D, GlobalAveragePooling2D, BatchNormalization,Dropout,concatenate
 
 def SVAD_CONV_MultiLayer():
