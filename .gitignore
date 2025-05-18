@@ -5,7 +5,6 @@ __pycache__/
 # Data and output files (adjust as needed)
 /data/
 results/
-*.txt
 
 # Allow tests/data folder
 !tests/data/
