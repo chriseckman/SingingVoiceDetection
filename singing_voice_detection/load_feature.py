@@ -1,15 +1,11 @@
 from pathlib import Path
 import numpy as np
 import librosa
-from madmom.audio.signal import Signal
 
 def featureExtract(file_name):
     """Return log-mel spectrogram features for ``file_name``."""
     try:
-        signal = Signal(
-            str(file_name), sample_rate=16000, dtype=np.float32, num_channels=1
-        )
-        sr = signal.sample_rate
+        signal, sr = librosa.load(str(file_name), sr=16000, mono=True)
         mel_S = librosa.feature.melspectrogram(
             signal, sr=sr, n_fft=1024, hop_length=160, n_mels=80
         )
@@ -53,7 +49,3 @@ if __name__ == '__main__':
 
     features = featureExtract(args.file)
     print(features.shape)
-<<<<<<< ours
-=======
-
->>>>>>> theirs

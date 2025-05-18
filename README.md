@@ -19,7 +19,8 @@ Install the package directly from the repository using `pip`:
 pip install git+https://example.com/singing-voice-detection.git
 ```
 
-The main dependencies (TensorFlow, Keras, Librosa, NumPy and `madmom`) will be installed automatically.
+The main dependencies (TensorFlow, Keras, Librosa and NumPy) will be installed automatically.
+Audio loading now relies solely on `librosa`, so additional libraries like `madmom` are no longer required.
 
 ## Command-Line Usage
 
