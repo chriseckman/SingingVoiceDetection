@@ -33,7 +33,7 @@ def predict_singing_segments(file_name, model, options):
     x_test = makingTensor(feature, stride=options.stride)
     y_predict = (
         model.predict(x_test, verbose=0) > options.threshold
-    ).astype(int)
+    ).astype(int).flatten()
     return y_predict
 
 
