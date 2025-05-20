@@ -18,7 +18,7 @@ This repository provides a Python implementation for detecting singing segments 
 Install the package directly from the repository using `pip`:
 
 ```bash
-pip install git+https://github.com/chriseckman/SingingVoiceDetection.git@feature/singing-detection
+pip install git+https://github.com/chriseckman/SingingVoiceDetection.git
 ```
 
 The main dependencies (TensorFlow, Librosa and NumPy) will be installed automatically.
