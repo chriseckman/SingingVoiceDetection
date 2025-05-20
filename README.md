@@ -50,8 +50,8 @@ from singing_voice_detection import detect_singing_segments
 
 segments = detect_singing_segments(
     "./data/your_audio_file.wav",
-    threshold=0.5,
-    stride=5,
+    threshold=0.7,
+    stride=3,
     min_duration=1.0,
     include_confidence=True,
 )
