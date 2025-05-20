@@ -47,11 +47,7 @@ def extract_pitch_features(
 def featureExtract_with_pitch(file_name):
     """Return log-mel spectrogram with additional pitch-based features."""
     try:
-        signal, sr = librosa.load(str(file_name), sr=16000, mono=True)
-        mel_S = librosa.feature.melspectrogram(
-            y=signal, sr=sr, n_fft=1024, hop_length=160, n_mels=80
-        )
-        log_mel_S = librosa.power_to_db(mel_S, ref=np.max).astype(np.float32)
+        log_mel_S, signal, sr = load_and_compute_log_mel(file_name, return_signal=True)
         f0, stability, vibrato = extract_pitch_features(signal, sr, hop_length=160)
         return {
             "log_mel": log_mel_S,
